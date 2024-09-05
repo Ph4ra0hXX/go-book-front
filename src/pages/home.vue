@@ -1,5 +1,6 @@
 <template>
   <Header />
+  <Page />
   <br />
   <div
     v-for="(group, groupIndex) in groupedBooks"
@@ -21,9 +22,12 @@
 <script>
 import Footer from "../components/footer.vue";
 import Header from "../components/header.vue";
+import Page from "../components/page.vue";
+
 export default {
   name: "Home",
   components: {
+    Page,
     Header,
     Footer,
   },
@@ -94,6 +98,10 @@ export default {
 </script>
 
 <style>
+body {
+  pointer-events: none;
+}
+
 .bookshelf {
   max-width: 1000px;
   width: 100%;
