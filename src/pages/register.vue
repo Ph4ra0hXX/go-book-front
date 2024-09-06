@@ -1,7 +1,7 @@
 <template>
   <div class="login-container">
     <h2><img id="logo_login" src="/logo_noName.png" alt="" /></h2>
-    <h2>Login</h2>
+    <h2>Cadastro</h2>
     <br />
     <form @submit.prevent="handleLogin">
       <div class="input-group">
@@ -9,13 +9,14 @@
         <label for="Usuário">Usuário</label>
       </div>
       <div class="input-group">
+        <input type="email" v-model="email" />
+        <label for="E-mail">E-mail</label>
+      </div>
+      <div class="input-group">
         <input type="password" v-model="password" />
         <label for="Senha">Senha</label>
       </div>
-      <button type="submit">Login</button>
-      <router-link to="/register">
-        <button id="btn-cadastro" type="submit">Cadastrar</button>
-      </router-link>
+      <button type="submit">Cadastrar</button>
     </form>
   </div>
 </template>
@@ -25,6 +26,7 @@ export default {
   data() {
     return {
       username: "",
+      email: "",
       password: "",
     };
   },
