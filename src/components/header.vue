@@ -1,7 +1,11 @@
 <template>
   <div id="header">
-    <button class="header-btn">Home</button>
-    <img src="logo.png" alt="Logo" class="header-logo" />
+    <router-link to="/">
+      <button class="header-btn">Home</button>
+    </router-link>
+    <router-link to="/">
+      <img src="logo.png" alt="Logo" class="header-logo" />
+    </router-link>
     <button class="header-btn">Sobre</button>
   </div>
 </template>

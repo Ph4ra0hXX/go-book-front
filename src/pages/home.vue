@@ -1,7 +1,6 @@
 <template>
-  <Header />
-  <Page />
   <br />
+
   <div
     v-for="(group, groupIndex) in groupedBooks"
     :key="groupIndex"
@@ -10,19 +9,21 @@
     <div class="books">
       <div
         v-for="(book, bookIndex) in group"
+        @click="goToBook(book.id)"
         :key="bookIndex"
         class="book"
         :style="{ '--bg-image': `url(${book.image})` }"
       ></div>
     </div>
   </div>
-  <Footer />
 </template>
 
 <script>
 import Footer from "../components/footer.vue";
 import Header from "../components/header.vue";
-import Page from "../components/page.vue";
+import Page from "./page.vue";
+
+import axios from "axios";
 
 export default {
   name: "Home",
@@ -33,57 +34,24 @@ export default {
   },
   data() {
     return {
-      books: [
-        {
-          image: "https://m.media-amazon.com/images/I/81sVibOq5OL._SL1500_.jpg",
-        },
-        {
-          image: "https://m.media-amazon.com/images/I/919YkFdlilL._SL1500_.jpg",
-        },
-        {
-          image: "https://m.media-amazon.com/images/I/81f4Y0+4ZgL._SL1500_.jpg",
-        },
-        {
-          image: "https://m.media-amazon.com/images/I/917htoXM49L._SL1500_.jpg",
-        },
-        {
-          image: "https://m.media-amazon.com/images/I/81zK1zGt82L._SL1500_.jpg",
-        },
-        {
-          image: "https://m.media-amazon.com/images/I/91VS1jBpk3L._SL1500_.jpg",
-        },
-        {
-          image: "https://m.media-amazon.com/images/I/91fx9SQnrKL._SL1500_.jpg",
-        },
-        {
-          image: "https://m.media-amazon.com/images/I/81acORzkokL._SL1500_.jpg",
-        },
-        {
-          image: "https://m.media-amazon.com/images/I/81RrEEMiOCL._SL1500_.jpg",
-        },
-        {
-          image: "https://m.media-amazon.com/images/I/812XbpMDovL._SL1500_.jpg",
-        },
-        {
-          image: "https://m.media-amazon.com/images/I/81U27X4m6EL._SL1500_.jpg",
-        },
-        {
-          image: "https://m.media-amazon.com/images/I/81VPrh08teL._SL1500_.jpg",
-        },
-        {
-          image: "https://m.media-amazon.com/images/I/91Yx43Yd5eL._SL1500_.jpg",
-        },
-        {
-          image: "https://m.media-amazon.com/images/I/81WblhV3ymL._SL1500_.jpg",
-        },
-        {
-          image: "https://m.media-amazon.com/images/I/81DUDkeaHoL._SL1500_.jpg",
-        },
-        {
-          image: "https://m.media-amazon.com/images/I/91jbHTNpy6L._SL1500_.jpg",
-        },
-      ],
+      books: [],
     };
+  },
+  mounted() {
+    this.getBooks();
+  },
+  methods: {
+    goToBook(bookID) {
+      this.$router.push(`/page/${bookID}`);
+    },
+    async getBooks() {
+      try {
+        const response = await axios.get("http://localhost:8080/books");
+        this.books = response.data;
+      } catch (error) {
+        console.error("Error fetching books:", error);
+      }
+    },
   },
   computed: {
     groupedBooks() {

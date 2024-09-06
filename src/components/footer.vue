@@ -19,10 +19,9 @@ export default {
   text-align: center;
   display: flex;
   flex-direction: column;
-  margin-top: -150px !important;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1); /* Sombra para dar efeito 3D */
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
 }
 
 .footer-logo {

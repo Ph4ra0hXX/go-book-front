@@ -1,7 +1,10 @@
 <template>
   <div class="book-page">
-    <h1>Throne Of Glass</h1>
+    <h1>{{ books.title }}</h1>
+    <span id="author">{{ books.author }}</span>
     <br />
+    <br />
+
     <p>
       <span
         v-for="(word, index) in words"
@@ -20,18 +23,14 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   name: "Page",
   data() {
     return {
-      text: `After a year of slavery in the Salt Mines of Endovier, Celaena Sardothien was
-      accustomed to being escorted everywhere in shackles and at sword-point. Most
-      of the thousands of slaves in Endovier received similar treatment—though an
-      extra half-dozen guards always walked Celaena to and from the mines. That was
-      expected by Adarlan’s most notorious assassin. What she did not usually expect,
-      however, was a hooded man in black at her side—as there was now.
-      He gripped her arm as he led her through the shining building in which most
-      of Endovier’s officials and overseers were housed.`,
+      text: "",
+      books: "",
       tooltip: {
         visible: false,
         text: "",
@@ -39,12 +38,36 @@ export default {
       },
     };
   },
+  mounted() {
+    this.getBooks();
+    this.getPage();
+  },
   computed: {
     words() {
       return this.text.match(/\b[\w'’-]+\b|[\s.,!?;—-]+/g);
     },
   },
   methods: {
+    async getBooks() {
+      try {
+        const response = await axios.get(
+          `http://localhost:8080/books/${this.$route.params.id}`
+        );
+        this.books = response.data;
+      } catch (error) {
+        console.error("Error fetching books:", error);
+      }
+    },
+    async getPage() {
+      try {
+        const response = await axios.get(
+          `http://localhost:8080/pages/${this.$route.params.id}/pages/1`
+        );
+        this.text = response.data.text;
+      } catch (error) {
+        console.error("Error fetching page:", error);
+      }
+    },
     speak(word) {
       if (!word.trim().match(/[\w'’-]+/)) return;
 
@@ -57,21 +80,29 @@ export default {
         alert("Desculpe, seu navegador não suporta a síntese de fala.");
       }
     },
-    getTranslation(word) {
-      const translations = {
-        After: "Depois",
-        year: "ano",
-        of: "de",
-        slavery: "escravidão",
-        // Add more translations as needed
-      };
-      return translations[word] || "N/A";
+    async getTranslation(word) {
+      try {
+        const response = await axios.get(
+          `http://localhost:8080/translate/${word}`
+        );
+        return response.data.translation || "N/A";
+      } catch (error) {
+        console.error("Error fetching page:", error);
+      }
     },
-    handleClick(event, word) {
+    async handleClick(event, word) {
       this.speak(word);
 
-      const translation = this.getTranslation(word.trim());
-      this.tooltip.text = translation;
+      try {
+        // Aguarda a resposta da tradução antes de continuar
+        const translation = await this.getTranslation(word.trim());
+        this.tooltip.text = translation;
+      } catch (error) {
+        console.error("Error getting translation:", error);
+        this.tooltip.text = "N/A"; // Define um valor padrão em caso de erro
+      }
+
+      // Atualiza o estilo e visibilidade do tooltip
       this.tooltip.style = {
         position: "absolute",
         left: `${event.clientX}px`,
@@ -97,10 +128,14 @@ export default {
   line-height: 1.6;
 }
 
+#author {
+  color: #653df5;
+}
+
 .clickable-word {
   cursor: pointer;
   color: rgb(0, 0, 0);
-  font-size: 19px;
+  font-size: 20px;
   margin-right: 2px;
   pointer-events: all !important;
   position: relative;
