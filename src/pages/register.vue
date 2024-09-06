@@ -1,19 +1,25 @@
 <template>
   <div class="login-container">
-    <h2><img id="logo_login" src="/logo_noName.png" alt="" /></h2>
+    <h2>
+      <img
+        id="logo_login"
+        src="https://raw.githubusercontent.com/Ph4ra0hXX/go-book-front/master/public/logo_noName.png"
+        alt=""
+      />
+    </h2>
     <h2>Cadastro</h2>
     <br />
-    <form @submit.prevent="handleLogin">
+    <form @submit.prevent="handleRegister">
       <div class="input-group">
-        <input type="text" v-model="username" />
+        <input type="text" v-model="username" required />
         <label for="Usuário">Usuário</label>
       </div>
       <div class="input-group">
-        <input type="email" v-model="email" />
+        <input type="email" v-model="email" required />
         <label for="E-mail">E-mail</label>
       </div>
       <div class="input-group">
-        <input type="password" v-model="password" />
+        <input type="password" v-model="password" required />
         <label for="Senha">Senha</label>
       </div>
       <button type="submit">Cadastrar</button>
@@ -22,6 +28,9 @@
 </template>
 
 <script>
+import axios from "axios";
+import { useToast } from "vue-toastification";
+
 export default {
   data() {
     return {
@@ -31,7 +40,26 @@ export default {
     };
   },
   methods: {
-    handleLogin() {},
+    async handleRegister() {
+      const toast = useToast();
+
+      try {
+        await axios.post("http://localhost:8080/register", {
+          username: this.username,
+          email: this.email,
+          password: this.password,
+        });
+
+        toast.success("Cadastro realizado com sucesso!", {
+          timeout: 2000,
+        });
+        this.$router.push("/login");
+      } catch (error) {
+        toast.error("Erro ao realizar cadastro. Tente novamente.", {
+          timeout: 2000,
+        });
+      }
+    },
   },
 };
 </script>
@@ -112,14 +140,5 @@ button {
 
 button:hover {
   background-color: #5426f7;
-}
-
-#btn-cadastro {
-  margin-top: 5px;
-  background-color: #1e1f20 !important;
-}
-
-#btn-cadastro:hover {
-  background-color: #363636 !important;
 }
 </style>

@@ -1,6 +1,10 @@
 <template>
   <div id="footer">
-    <img src="logo.png" alt="Logo" class="footer-logo" />
+    <img
+      src="https://raw.githubusercontent.com/Ph4ra0hXX/go-book-front/master/public/logo.png"
+      alt="Logo"
+      class="footer-logo"
+    />
     <p class="copyright">&copy; 2024 TCC. Wesley Jonatha - 22314803-5</p>
   </div>
 </template>

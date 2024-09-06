@@ -1,26 +1,34 @@
 <template>
   <div class="login-container">
-    <h2><img id="logo_login" src="/logo_noName.png" alt="" /></h2>
+    <h2>
+      <img
+        id="logo_login"
+        src="https://raw.githubusercontent.com/Ph4ra0hXX/go-book-front/master/public/logo_noName.png"
+        alt=""
+      />
+    </h2>
     <h2>Login</h2>
     <br />
     <form @submit.prevent="handleLogin">
       <div class="input-group">
-        <input type="text" v-model="username" />
+        <input type="text" v-model="username" required />
         <label for="Usuário">Usuário</label>
       </div>
       <div class="input-group">
-        <input type="password" v-model="password" />
+        <input type="password" v-model="password" required />
         <label for="Senha">Senha</label>
       </div>
       <button type="submit">Login</button>
       <router-link to="/register">
-        <button id="btn-cadastro" type="submit">Cadastrar</button>
+        <button id="btn-cadastro" type="button">Cadastrar</button>
       </router-link>
     </form>
   </div>
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   data() {
     return {
@@ -29,7 +37,20 @@ export default {
     };
   },
   methods: {
-    handleLogin() {},
+    async handleLogin() {
+      try {
+        const response = await axios.post("http://localhost:8080/login", {
+          username: this.username,
+          password: this.password,
+        });
+
+        const token = response.data.token;
+        localStorage.setItem("token", token);
+        this.$router.push("/");
+      } catch (error) {
+        alert("Usuário ou senha incorretos");
+      }
+    },
   },
 };
 </script>

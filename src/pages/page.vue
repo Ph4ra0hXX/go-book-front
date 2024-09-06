@@ -56,9 +56,15 @@ export default {
   methods: {
     async getBooks() {
       try {
+        const token = localStorage.getItem("token");
+
+        const headers = token ? { Authorization: `Bearer ${token}` } : {};
+
         const response = await axios.get(
-          `http://localhost:8080/books/${this.$route.params.id}`
+          `http://localhost:8080/books/${this.$route.params.id}`,
+          { headers }
         );
+
         this.books = response.data;
       } catch (error) {
         console.error("Error fetching books:", error);
@@ -66,9 +72,17 @@ export default {
     },
     async getPage() {
       try {
+        const token = localStorage.getItem("token");
+
+        const headers = {
+          Authorization: `Bearer ${token}`,
+        };
+
         const response = await axios.get(
-          `http://localhost:8080/pages/${this.$route.params.id}/pages/1`
+          `http://localhost:8080/pages/${this.$route.params.id}/pages/1`,
+          { headers }
         );
+
         this.text = response.data.text;
       } catch (error) {
         console.error("Error fetching page:", error);
@@ -146,7 +160,8 @@ export default {
 }
 
 .clickable-word:hover {
-  color: #653df5;
+  color: #ffffff;
+  background-color: #653df5;
 }
 
 .tooltip {

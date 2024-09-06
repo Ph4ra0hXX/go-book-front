@@ -4,7 +4,11 @@
       <button class="header-btn">Home</button>
     </router-link>
     <router-link to="/">
-      <img src="logo.png" alt="Logo" class="header-logo" />
+      <img
+        src="https://raw.githubusercontent.com/Ph4ra0hXX/go-book-front/master/public/logo.png"
+        alt="Logo"
+        class="header-logo"
+      />
     </router-link>
 
     <router-link to="/about"

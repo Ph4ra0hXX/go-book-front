@@ -47,7 +47,15 @@ export default {
     },
     async getBooks() {
       try {
-        const response = await axios.get("http://localhost:8080/books");
+        const token = localStorage.getItem("token");
+
+        const config = {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        };
+
+        const response = await axios.get("http://localhost:8080/books", config);
         this.books = response.data;
       } catch (error) {
         console.error("Error fetching books:", error);
@@ -56,9 +64,11 @@ export default {
   },
   computed: {
     groupedBooks() {
+      const sortedBooks = [...this.books].sort((a, b) => a.id - b.id);
+
       const groups = [];
-      for (let i = 0; i < this.books.length; i += 4) {
-        groups.push(this.books.slice(i, i + 4));
+      for (let i = 0; i < sortedBooks.length; i += 4) {
+        groups.push(sortedBooks.slice(i, i + 4));
       }
       return groups;
     },
