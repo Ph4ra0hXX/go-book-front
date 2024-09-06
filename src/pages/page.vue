@@ -1,4 +1,6 @@
 <template>
+  <Header />
+
   <div class="book-page">
     <h1>{{ books.title }}</h1>
     <span id="author">{{ books.author }}</span>
@@ -24,9 +26,13 @@
 
 <script>
 import axios from "axios";
+import Header from "../components/header.vue";
 
 export default {
   name: "Page",
+  components: {
+    Header,
+  },
   data() {
     return {
       text: "",
@@ -94,15 +100,13 @@ export default {
       this.speak(word);
 
       try {
-        // Aguarda a resposta da tradução antes de continuar
         const translation = await this.getTranslation(word.trim());
         this.tooltip.text = translation;
       } catch (error) {
         console.error("Error getting translation:", error);
-        this.tooltip.text = "N/A"; // Define um valor padrão em caso de erro
+        this.tooltip.text = "N/A";
       }
 
-      // Atualiza o estilo e visibilidade do tooltip
       this.tooltip.style = {
         position: "absolute",
         left: `${event.clientX}px`,

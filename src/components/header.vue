@@ -6,7 +6,10 @@
     <router-link to="/">
       <img src="logo.png" alt="Logo" class="header-logo" />
     </router-link>
-    <button class="header-btn">Sobre</button>
+
+    <router-link to="/about"
+      ><button class="header-btn">Sobre</button></router-link
+    >
   </div>
 </template>
 
