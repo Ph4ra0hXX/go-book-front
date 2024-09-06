@@ -67,7 +67,11 @@ export default {
 
         this.books = response.data;
       } catch (error) {
-        console.error("Error fetching books:", error);
+        if (error.response && error.response.status === 401) {
+          this.$router.push("/login");
+        } else {
+          console.error("Error fetching books:", error);
+        }
       }
     },
     async getPage() {
@@ -85,7 +89,11 @@ export default {
 
         this.text = response.data.text;
       } catch (error) {
-        console.error("Error fetching page:", error);
+        if (error.response && error.response.status === 401) {
+          this.$router.push("/login");
+        } else {
+          console.error("Error fetching page:", error);
+        }
       }
     },
     speak(word) {

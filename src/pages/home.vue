@@ -58,7 +58,11 @@ export default {
         const response = await axios.get("http://localhost:8080/books", config);
         this.books = response.data;
       } catch (error) {
-        console.error("Error fetching books:", error);
+        if (error.response && error.response.status === 401) {
+          this.$router.push("/login");
+        } else {
+          console.error("Error fetching books:", error);
+        }
       }
     },
   },
