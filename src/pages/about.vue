@@ -5,7 +5,7 @@
     <h2>Sobre Mim</h2>
     <p>
       Olá! Meu nome é Wesley Jonatha e este projeto é parte do meu Trabalho de
-      Conclusão de Curso (TCC) da diciplina TRABALHO DE CONCLUSÃO DE CURSO II.
+      Conclusão de Curso (TCC) da disciplina TRABALHO DE CONCLUSÃO DE CURSO II.
     </p>
 
     <h2>Contato</h2>
